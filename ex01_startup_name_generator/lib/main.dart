@@ -1,4 +1,3 @@
-import 'package:english_words/english_words.dart' as prefix0;
 import 'package:flutter/material.dart';
 import 'package:english_words/english_words.dart';
 
@@ -10,9 +9,7 @@ class MyApp extends StatelessWidget {
     // final wordPair = WordPair.random();
     return MaterialApp(
       title: 'Startup Name Generator',
-      theme: ThemeData(
-        primaryColor: Colors.white
-      ),
+      theme: ThemeData(primaryColor: Colors.white),
       home: RandomWords(),
       // title: 'Welcome to Flutter',
       // home: Scaffold(
@@ -54,73 +51,71 @@ class RandomWordsState extends State<RandomWords> {
     );
   }
 
-  void _pushSaved(){
+  void _pushSaved() {
     Navigator.of(context).push(
-      MaterialPageRoute<void>(
-        builder: (BuildContext context){
-          final Iterable<ListTile> tiles = _saved.map(
-            (WordPair pair){
-              return ListTile(
-                title: Text(
-                  pair.asPascalCase,
-                  style: _biggerFont,
-                ),
-              );
-            },
-          );
-          final List<Widget> divided = ListTile.divideTiles(
-            context: context,
-            tiles: tiles,
-          ).toList();
+      MaterialPageRoute<void>(builder: (BuildContext context) {
+        final Iterable<ListTile> tiles = _saved.map(
+          (WordPair pair) {
+            return ListTile(
+              title: Text(
+                pair.asPascalCase,
+                style: _biggerFont,
+              ),
+            );
+          },
+        );
+        final List<Widget> divided = ListTile.divideTiles(
+          context: context,
+          tiles: tiles,
+        ).toList();
 
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Saved Suggestions'),
-            ),
-            body: ListView(children: divided),
-          );
-        }
-      ),
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Saved Suggestions'),
+          ),
+          body: ListView(children: divided),
+        );
+      }),
     );
   }
+
   Widget _buildSuggestions() {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
-      // The itemBuilder callback is called once per suggested 
-      // word pairing, and places each suggestion into a ListTile
-      // row. For even rows, the function adds a ListTile row for
-      // the word pairing. For odd rows, the function adds a 
-      // Divider widget to visually separate the entries. Note that
-      // the divider may be difficult to see on smaller devices.
-      itemBuilder: (BuildContext _context, int i) {
-        // Add a one-pixel-high divider widget before each row 
-        // in the ListView.
-        if (i.isOdd) {
-          return Divider();
-        }
+        padding: const EdgeInsets.all(16),
+        // The itemBuilder callback is called once per suggested
+        // word pairing, and places each suggestion into a ListTile
+        // row. For even rows, the function adds a ListTile row for
+        // the word pairing. For odd rows, the function adds a
+        // Divider widget to visually separate the entries. Note that
+        // the divider may be difficult to see on smaller devices.
+        itemBuilder: (BuildContext _context, int i) {
+          // Add a one-pixel-high divider widget before each row
+          // in the ListView.
+          if (i.isOdd) {
+            return Divider();
+          }
 
-        // The syntax "i ~/ 2" divides i by 2 and returns an 
-        // integer result.
-        // For example: 1, 2, 3, 4, 5 becomes 0, 1, 1, 2, 2.
-        // This calculates the actual number of word pairings 
-        // in the ListView,minus the divider widgets.
+          // The syntax "i ~/ 2" divides i by 2 and returns an
+          // integer result.
+          // For example: 1, 2, 3, 4, 5 becomes 0, 1, 1, 2, 2.
+          // This calculates the actual number of word pairings
+          // in the ListView,minus the divider widgets.
 
-        // final int index = i ~/ 2;
-        final int index = i ~/ 2;
+          // final int index = i ~/ 2;
+          final int index = i ~/ 2;
 
-
-        // If you've reached the end of the available word
-        // pairings...
-        if (index >= _suggestions.length) {
-          // ...then generate 10 more and add them to the 
-          // suggestions list.
-          _suggestions.addAll(generateWordPairs().take(10));
-        }
-        return _buildRow(_suggestions[index]);
-      }
-    );
+          // If you've reached the end of the available word
+          // pairings...
+          if (index >= _suggestions.length) {
+            // ...then generate 10 more and add them to the
+            // suggestions list.
+            _suggestions.addAll(generateWordPairs().take(10));
+          }
+          return _buildRow(_suggestions[index]);
+        });
   }
-   Widget _buildRow(WordPair pair) {
+
+  Widget _buildRow(WordPair pair) {
     final bool alreadySaved = _saved.contains(pair);
     return ListTile(
       title: Text(
@@ -131,12 +126,12 @@ class RandomWordsState extends State<RandomWords> {
         alreadySaved ? Icons.favorite : Icons.favorite_border,
         color: alreadySaved ? Colors.redAccent : null,
       ),
-      onTap: (){
-        setState(() { // build()를 호출하여 UI를 업데이트
-          if(alreadySaved){
+      onTap: () {
+        setState(() {
+          // build()를 호출하여 UI를 업데이트
+          if (alreadySaved) {
             _saved.remove(pair);
-          }
-          else{
+          } else {
             _saved.add(pair);
           }
         });
