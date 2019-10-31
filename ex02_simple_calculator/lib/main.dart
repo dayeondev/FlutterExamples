@@ -2,7 +2,26 @@ import 'package:flutter/material.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State createState() {
+    return MyAppState();
+  }
+}
+
+typedef bufferFunc = void Function(String key);
+const List OPERATORS = ['+', '-', '*', '/'];
+
+class MyAppState extends State<MyApp> {
+  
+
+ 
+  double text = 0;
+  String buffer = '';
+  double op1 = 0;
+  double op2 = 0;
+  String operator = '';
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -13,69 +32,82 @@ class MyApp extends StatelessWidget {
         ),
         body: Column(children: [
           Row(children: [
-            _newCalculatorButton('7'),
-            _newCalculatorButton('8'),
-            _newCalculatorButton('9'),
-            _newCalculatorButton('X'),
+            CalculatorButton('7'),
+            CalculatorButton('8'),
+            CalculatorButton('9'),
+            CalculatorButton('X'),
           ]),
           Row(children: [
-            _newCalculatorButton('4'),
-            _newCalculatorButton('5'),
-            _newCalculatorButton('6'),
-            _newCalculatorButton('-'),
+            CalculatorButton('4'),
+            CalculatorButton('5'),
+            CalculatorButton('6'),
+            CalculatorButton('-'),
           ]),
           Row(children: [
-            _newCalculatorButton('1'),
-            _newCalculatorButton('2'),
-            _newCalculatorButton('3'),
-            _newCalculatorButton('+'),
+            CalculatorButton('1'),
+            CalculatorButton('2'),
+            CalculatorButton('3'),
+            CalculatorButton('+'),
           ]),
           Row(children: [
-            _newCalculatorButton(' '),
-            _newCalculatorButton('0'),
-            _newCalculatorButton('.'),
-            _newCalculatorButton('='),
+            CalculatorButton(' '),
+            CalculatorButton('0'),
+            CalculatorButton('.'),
+            CalculatorButton('='),
           ]),
-
-          // Row(children: [
-          //   RaisedButton(child: Text('7'), onPressed: () { addNumbers('7'); },),
-          //   RaisedButton(child: Text('8'), onPressed: () { addNumbers('8'); },),
-          //   RaisedButton(child: Text('9'), onPressed: () { addNumbers('9'); },),
-          //   RaisedButton(child: Text('X'), onPressed: () { addNumbers('X'); },),
-          // ]),
-          // Row(children: [
-          //   RaisedButton(child: Text('4'), onPressed: () { addNumbers('4'); },),
-          //   RaisedButton(child: Text('5'), onPressed: () { addNumbers('5'); },),
-          //   RaisedButton(child: Text('6'), onPressed: () { addNumbers('6'); },),
-          //   RaisedButton(child: Text('-'), onPressed: () { addNumbers('-'); },),
-          // ]),
-          // Row(children: [
-          //   RaisedButton(child: Text('1'), onPressed: () { addNumbers('1'); },),
-          //   RaisedButton(child: Text('2'), onPressed: () { addNumbers('2'); },),
-          //   RaisedButton(child: Text('3'), onPressed: () { addNumbers('3'); },),
-          //   RaisedButton(child: Text('+'), onPressed: () { addNumbers('+'); },),
-          // ]),
-          // Row(children: [
-          //   RaisedButton(child: Text(' '), onPressed: () { addNumbers(' '); },),
-          //   RaisedButton(child: Text('0'), onPressed: () { addNumbers('0'); },),
-          //   RaisedButton(child: Text('.'), onPressed: () { addNumbers('.'); },),
-          //   RaisedButton(child: Text('='), onPressed: () { addNumbers('='); },),
-          // ]),
+          Row(
+            children: [
+              Text('=> Result is $text'),
+            ],
+          )
         ]),
       ),
     );
   }
 
-  Widget _newCalculatorButton(String str) {
+  Widget CalculatorButton(String key) {
     return RaisedButton(
-      child: Text(str),
+      child: Text(key),
       onPressed: () {
-        addNumbers(str);
+        buttonPressed(key);
       },
     );
   }
-}
-void addNumbers(String key) {
-  print('calc key >>' + key);
 
+  void buttonPressed(String key) {
+    if (key == 'C') {
+      buffer = '';
+    } else if (OPERATORS.contains(key)) {
+      op1 = double.parse(buffer);
+      operator = key;
+      buffer = '';
+    } else if (key == '=') {
+      op2 = double.parse(buffer);
+      calculate(op1, op2, operator);
+      buffer = '';
+    } else {
+      buffer += key;
+    }
+  }
+
+  void calculate(double op1, double op2, String operator) {
+    print('op1: $op1 , op2: $op2 , operator: $operator');
+    double result = 0.0;
+    if (operator == '+')
+      result = op1 + op2;
+    else if (operator == '-')
+      result = op1 - op2;
+    else if (operator == '*')
+      result = op1 * op2;
+    else
+      result = op1 / op2;
+    print('result is $result');
+    showResult(result);
+  }
+
+  void showResult(double num){
+    setState(() {
+      text = num;
+    });
+  }
 }
