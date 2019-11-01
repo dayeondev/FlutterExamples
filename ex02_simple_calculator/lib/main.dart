@@ -27,7 +27,7 @@ class MyAppState extends State<MyApp> {
     return MaterialApp(
       title: 'Calculator',
       home: Scaffold(
-        appBar: AppBar(
+        appBar: AppBar(          
           title: Text('Simple Calculator'),
         ),
         body: Column(children: [
