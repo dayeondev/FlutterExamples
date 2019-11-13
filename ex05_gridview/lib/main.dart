@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
     return GridView.extent(
       maxCrossAxisExtent: 150,
       padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
-      mainAxisSpacing: 4,
+      // mainAxisSpacing: 4,
       children: _buildGridTileList(30),
     );
   }
@@ -49,7 +49,7 @@ class MyApp extends StatelessWidget {
     return List.generate(
       
         count, (i) => Container(
-          // padding: const EdgeInsets.fromLTRB(2, 0, 2, 0),
+          padding: const EdgeInsets.fromLTRB(4, 4, 4, 4),
           child: Image.asset('images/pic$i.jpg')));
   }
 }
