@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:planets/model/Planet.dart';
+import 'package:planets/model/Planets.dart';
 
 class PlanetRow extends StatelessWidget {
   final Planet planet;
